@@ -146,9 +146,9 @@ static struct option options[] =
 
 static void print_version()
 {
-	printf("scetool " SCETOOL_VERSION " (C) 2011-2013 by naehrwert\n");
-	printf("NP local license handling (C) 2012 by flatz\n");
-	//printf("[Build Date/Time: %s/%s]\n", __DATE__, __TIME__);
+	printf("\nscetool <PRIVATE BUILD:" BUILD_FOR "> (C) 2011-2013 by naehrwert\n");
+	printf("NP local license handling (C) 2012 by flatz\n\n");
+	//printf("[Build Date/Time: %s/%s]\n\n", __DATE__, __TIME__);
 }
 
 #include <time.h>
@@ -157,42 +157,40 @@ static void print_usage()
 {
 	print_version();
 
-	printf("USAGE: scetool [options] command\n");
-	printf("COMMANDS                Parameters            Explanation\n");
-	printf(" -h, --help                                   Print this help.\n");
-	printf(" -k, --print-keys                             List keys.\n");
-	printf(" -i, --print-infos      File-in               Print SCE file info.\n");
-	printf(" -d, --decrypt          File-in File-out      Decrypt/dump SCE file.\n");
-	printf(" -e, --encrypt          File-in File-out      Encrypt/create SCE file.\n");
-	printf("OPTIONS                 Possible Values       Explanation\n");
-	printf(" -v, --verbose                                Enable verbose output.\n");
-	printf(" -r, --raw                                    Enable raw value output.\n");
-	printf(" -t, --template         File-in               Template file (SELF only)\n");
-	printf(" -0, --sce-type         SELF/RVK/PKG/SPP      SCE File Type\n");
-	printf(" -1, --compress-data    TRUE/FALSE(default)   Whether to compress data or not.\n");
-	printf(" -s, --skip-sections    TRUE(default)/FALSE   Whether to skip sections or not.\n");
-	printf(" -2, --key-revision     e.g. 00,01,...,0A,... Key Revision\n");
-	printf(" -m, --meta-info        64 bytes              Use provided meta info to decrypt.\n");
-	printf(" -K, --keyset           32(Key)16(IV)\n");
-	printf("                        40(Pub)21(Priv)1(CT)  Override keyset.\n");
-	printf(" -3, --self-auth-id     e.g. 1010000001000003 Authentication ID\n");
-	printf(" -4, --self-vendor-id   e.g. 01000002         Vendor ID\n");
-	printf(" -5, --self-type        LV0/LV1/LV2/APP/ISO/\n");
-	printf("                        LDR/NPDRM             SELF Type\n");
-	printf(" -A, --self-app-version e.g. 0001000000000000 Application Version\n");
-	printf(" -6, --self-fw-version  e.g. 0003004100000000 Firmware Version\n");
-	printf(" -7, --self-add-shdrs   TRUE(default)/FALSE   Whether to add ELF shdrs or not.\n");
-	printf(" -8, --self-ctrl-flags  32 bytes              Override control flags.\n");
-	printf(" -9, --self-cap-flags   32 bytes              Override capability flags.\n");
+	printf("Использование: scetool [опции] команда\n\n");
+	printf("КОМАНДЫ                Параметры                         Примечание\n\n");
+	printf(" -h, --help                                               Вывести эту помощь.\n");
+	printf(" -k, --print-keys                                         Список ключей.\n");
+	printf(" -i, --print-infos      File-in                           Вывести информацию SCE файла.\n");
+	printf(" -d, --decrypt          File-in File-out                  Расшифровка/дамп SCE файла.\n");
+	printf(" -e, --encrypt          File-in File-out                  Шифровать/создать SCE файл.\n\n");
+	printf("ОПЦИИ                  Возможные значения                Примечание\n\n");
+	printf(" -v, --verbose                                            Включить подробный вывод.\n");
+	printf(" -r, --raw                                                Включить вывод исходных значений.\n");
+	printf(" -t, --template         File-in                           Шаблон файла (SELF только)\n");
+	printf(" -0, --sce-type         SELF/RVK/PKG/SPP                  SCE тип файла\n");
+	printf(" -1, --compress-data    TRUE/FALSE(default)               Независимо, сжаты данные или нет.\n");
+	printf(" -s, --skip-sections    TRUE(default)/FALSE               Независимо, пропущены разделы или нет.\n");
+	printf(" -2, --key-revision     e.g. 00,01,...,0A,...             Ревизия ключа\n");
+	printf(" -m, --meta-info        64 bytes                          Использовать метаданные для расшифровки.\n");
+	printf(" -K, --keyset           32(Key)16(IV)40(Pub)21(Priv)1(CT) Замещать набор ключей.\n");
+	printf(" -3, --self-auth-id     e.g. 1010000001000003             ID аутентификации\n");
+	printf(" -4, --self-vendor-id   e.g. 01000002                     ID продавца\n");
+	printf(" -5, --self-type        LV0/LV1/LV2/APP/ISO/LDR/NPDRM     SELF тип\n");
+	printf(" -A, --self-app-version e.g. 0001000000000000             Версия приложения\n");
+	printf(" -6, --self-fw-version  e.g. 0003004100000000             Версия прошивки\n");
+	printf(" -7, --self-add-shdrs   TRUE(default)/FALSE               Независимо, добавлен ELF шейдеры или нет.\n");
+	printf(" -8, --self-ctrl-flags  32 bytes                          Замещать флаги контроля.\n");
+	printf(" -9, --self-cap-flags   32 bytes                          Замещать флаги функций.\n");
 #ifdef CONFIG_CUSTOM_INDIV_SEED
-	printf(" -a, --self-indiv-seed  256 bytes             Individuals Seed (ISO only)\n");
+	printf(" -a, --self-indiv-seed  256 bytes                         Индивидуальный сид (только ISO)\n");
 #endif
-	printf(" -b, --np-license-type  LOCAL/FREE            License Type\n");
-	printf(" -c, --np-app-type      SPRX/EXEC/USPRX/UEXEC App Type (U* for updates)\n");
-	printf(" -f, --np-content-id                          Content ID\n");
-	printf(" -l, --np-klicensee     16 bytes              Override klicensee.\n");
-	printf(" -g, --np-real-fname    e.g. EBOOT.BIN        Real Filename\n");
-	printf(" -j, --np-add-sig       TRUE/FALSE(default)   Whether to add a NP sig. or not.\n");
+	printf(" -b, --np-license-type  LOCAL/FREE                        Тип лицензии\n");
+	printf(" -c, --np-app-type      SPRX/EXEC/USPRX/UEXEC             Тип приложения (U* для обновлений)\n");
+	printf(" -f, --np-content-id                                      ID контента\n");
+	printf(" -l, --np-klicensee     16 bytes                          Замещать klicensee.\n");
+	printf(" -g, --np-real-fname    e.g. EBOOT.BIN                    Реальное имя файла\n");
+	printf(" -j, --np-add-sig       TRUE/FALSE(default)               Независимо, добавлена подпись NP или нет.\n");
 
 	//getchar();
 
@@ -328,7 +326,7 @@ static void parse_args(int argc, char **argv)
 	{
 		if(argc - optind < 1)
 		{
-			printf("[*] Error: Decrypt needs an output file!\n");
+			printf("[*] Ошибка: Необходимо расшифровать выходной файл!\n");
 			print_usage();
 		}
 
@@ -340,7 +338,7 @@ static void parse_args(int argc, char **argv)
 	{
 		if(argc - optind < 1)
 		{
-			printf("[*] Error: Encrypt needs an input and output file!\n");
+			printf("[*] Ошибка: Необходимо зашифровать входной и выходной файл!\n");
 			print_usage();
 		}
 
@@ -382,16 +380,16 @@ int main(int argc, char **argv)
 	else
 		sprintf(path, "%s/%s", CONFIG_KEYS_PATH, CONFIG_KEYS_FILE);
 	if(keys_load(path) == TRUE)
-		_LOG_VERBOSE("Loaded keysets.\n");
+		_LOG_VERBOSE("Загружен набор ключей.\n");
 	else
 	{
 		if(_list_keys == TRUE)
 		{
-			printf("[*] Error: Could not load keys.\n");
+			printf("[*] Ошибка: Не удалось загрузить ключи.\n");
 			return 0;
 		}
 		else
-			printf("[*] Warning: Could not load keys.\n");
+			printf("[*] Внимание: Не удалось загрузить ключи.\n");
 	}
 
 	//Load curves.
@@ -404,9 +402,9 @@ int main(int argc, char **argv)
 	else
 		sprintf(path, "%s/%s", CONFIG_CURVES_PATH, CONFIG_CURVES_FILE);
 	if(curves_load(path) == TRUE)
-		_LOG_VERBOSE("Loaded loader curves.\n");
+		_LOG_VERBOSE("Загружены характеристики загрузчика.\n");
 	else
-		printf("[*] Warning: Could not load loader curves.\n");
+		printf("[*] Внимание: Не удалось загрузить характеристики загрузчика.\n");
 
 	//Load curves.
 	if(ps3 != NULL)
@@ -418,16 +416,16 @@ int main(int argc, char **argv)
 	else
 		sprintf(path, "%s/%s", CONFIG_VSH_CURVES_PATH, CONFIG_VSH_CURVES_FILE);
 	if(vsh_curves_load(path) == TRUE)
-		_LOG_VERBOSE("Loaded vsh curves.\n");
+		_LOG_VERBOSE("Загружены характеристики vsh.\n");
 	else
-		printf("[*] Warning: Could not load vsh curves.\n");
+		printf("[*] Внимание: Не удалось загрузить характеристики vsh.\n");
 
 	//Set klicensee.
 	if(_klicensee != NULL)
 	{
 		if(strlen(_klicensee) != 0x10*2)
 		{
-			printf("[*] Error: klicensee needs to be 16 bytes.\n");
+			printf("[*] Ошибка: klicensee должен состоять из 16 байт.\n");
 			return FALSE;
 		}
 		np_set_klicensee(_x_to_u8_buffer(_klicensee));
@@ -435,7 +433,7 @@ int main(int argc, char **argv)
 
 	if(_list_keys == TRUE)
 	{
-		printf("[*] Loaded keysets:\n");
+		printf("[*] Загружен набор ключей:\n");
 		_print_key_list(stdout);
 	}
 	else if(_print_info)

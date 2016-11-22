@@ -11,7 +11,7 @@
 
 /*! Private build. */
 //#define CONFIG_PRIVATE_BUILD
-#define BUILD_FOR "naehrwert"
+#define BUILD_FOR "ErikPshat"
 //#define BUILD_FOR "unicorns"
 
 /*! scetool version. */
