@@ -7,12 +7,12 @@
 #define _CONFIG_H_
 
 /*! scetool base version. */
-#define SCETOOL_VERSION_BASE "0.2.9"
+#define SCETOOL_VERSION_BASE "0.2.9.1"
 
 /*! Private build. */
-//#define CONFIG_PRIVATE_BUILD
+#define CONFIG_PRIVATE_BUILD
+//#define BUILD_FOR "naehrwert"
 #define BUILD_FOR "ErikPshat"
-//#define BUILD_FOR "unicorns"
 
 /*! scetool version. */
 #ifdef CONFIG_PRIVATE_BUILD

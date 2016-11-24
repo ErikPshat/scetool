@@ -57,6 +57,7 @@ COMMANDS                Parameters            Explanation
  -e, --encrypt          File-in File-out      Encrypt/create SCE file.
 OPTIONS                 Possible Values       Explanation
  -v, --verbose                                Enable verbose output.
+ -p, --data-path        path/of/the/data      Define the path of the data dir
  -r, --raw                                    Enable raw value output.
  -t, --template         File-in               Template file (SELF only)
  -0, --sce-type         SELF/RVK/PKG/SPP      SCE File Type
@@ -84,6 +85,9 @@ OPTIONS                 Possible Values       Explanation
  -j, --np-add-sig       TRUE/FALSE(default)   Whether to add a NP sig. or not.
 
 ==> History <==
+Version 0.2.9.1
+ - Minor update 0.0.1 --self-fw-version for APP by someone
+   http://www.maxconsole.com/threads/uniofficial-minor-update-to-scetool.31333/
 Version 0.2.9
  - Plaintext sections will now take less space in metadata header keys array.
  - Added option to specifiy a template SELF to take configuration values from.

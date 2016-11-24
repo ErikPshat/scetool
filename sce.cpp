@@ -23,6 +23,9 @@
 #include "zlib.h"
 #include "np.h"
 
+static u8 mik_key[0x10];
+static u8 mik_iv[0x10];
+
 void _print_sce_header(FILE *fp, sce_header_t *h)
 {
 	const s8 *name;
@@ -50,9 +53,15 @@ void _print_sce_header(FILE *fp, sce_header_t *h)
 
 void _print_metadata_info(FILE *fp, metadata_info_t *mi)
 {
-	fprintf(fp, "[*] Metadata Info:\n");
+	//***this official scetool code prints keys after incremented
+	fprintf(fp, "[*] Metadata Info Incremented:\n");
 	_hexdump(fp, " Key", 0, mi->key, METADATA_INFO_KEY_LEN, FALSE);
 	_hexdump(fp, " IV ", 0, mi->iv, METADATA_INFO_IV_LEN, FALSE);
+
+	//***to print original meta info keys
+	fprintf(fp, "[*] Metadata Info Original:\n");
+	_hexdump(fp, " Key", 0, mik_key, METADATA_INFO_KEY_LEN, FALSE);
+	_hexdump(fp, " IV ", 0, mik_iv, METADATA_INFO_IV_LEN, FALSE);
 }
 
 void _print_metadata_header(FILE *fp, metadata_header_t *mh)
@@ -840,6 +849,9 @@ BOOL sce_decrypt_header(sce_buffer_ctxt_t *ctxt, u8 *metadata_info, u8 *keyset)
 		aes_setkey_dec(&aes_ctxt, ks->erk, KEYBITS(ks->erklen));
 		memcpy(iv, ks->riv, 0x10); //!!!
 		aes_crypt_cbc(&aes_ctxt, AES_DECRYPT, sizeof(metadata_info_t), iv, (u8 *)ctxt->metai, (u8 *)ctxt->metai);
+		//***copy keys to temporary variable so can print out correct metainfokeys
+		memcpy(mik_key, (u8 *)ctxt->metai->key, 0x10);
+		memcpy(mik_iv, (u8 *)ctxt->metai->iv, 0x10);
 	}
 	else
 	{

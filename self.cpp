@@ -716,6 +716,8 @@ static BOOL _create_control_infos(sce_buffer_ctxt_t *ctxt, self_config_t *sconf)
 			//TODO: check that.
 			if(self_type == SELF_TYPE_NPDRM)
 				cid->fw_version = sce_hexver_to_decver(sconf->fw_version);
+			else if(self_type == SELF_TYPE_APP)
+				cid->fw_version = sce_hexver_to_decver(sconf->fw_version);
 			else
 				cid->fw_version = 0;
 

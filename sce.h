@@ -50,6 +50,11 @@
 #define KEY_REVISION_370_373 0x16
 //#define KEY_REVISION_ 0x17
 //#define KEY_REVISION_ 0x18
+//#define KEY_REVISION_ 0x19
+//#define KEY_REVISION_ 0x1A
+//#define KEY_REVISION_ 0x1B
+//#define KEY_REVISION_ 0x1C
+//#define KEY_REVISION_ 0x1D
 #define KEY_REVISION_DEBUG 0x8000
 
 /*! SCE header types. */
