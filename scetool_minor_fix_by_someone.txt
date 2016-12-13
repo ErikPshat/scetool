@@ -1,0 +1,168 @@
+[QUOTE="Gamma Argon, post: 275327, member: 39060"]here's the source code for visual c++/windows with some a few small updates
+
+includes:
+
+1. prints original meta info keys.  the meta info keys  are used to encrypt/decrypt the self metadata.  official scetool displays the meta info keys after they have been incremented.  The original keys are only useful for someone who wants to use the same keys as the original self.  Use of the incremented keys would not give the same result.
+[spoiler="Code"]
+in sce.cpp add 2 global variables for the key and iv after the includes and after:
+
+[code]
+     aes_crypt_cbc(&aes_ctxt, AES_DECRYPT, sizeof(metadata_info_t), iv, (u8 *)ctxt->metai, (u8 *)ctxt->metai);
+[/code]
+
+add (near line 842):
+
+[code]
+     memcpy(mik_key, (u8 *)ctxt->metai->key, 0x10);
+
+     memcpy(mik_iv, (u8 *)ctxt->metai->iv, 0x10);
+[/code]
+
+and in _print_metadata_info change:
+
+[code]
+     _hexdump(fp, " Key", 0, mi->key, METADATA_INFO_KEY_LEN, FALSE);
+
+     _hexdump(fp, " IV ", 0, mi->iv, METADATA_INFO_IV_LEN, FALSE);
+[/code]
+
+to:
+
+[code]
+     _hexdump(fp, " Key", 0, mik_key, METADATA_INFO_KEY_LEN, FALSE);
+
+     _hexdump(fp, " IV ", 0, mik_iv, METADATA_INFO_IV_LEN, FALSE);
+[/code]
+[/spoiler]
+
+2. added firmware version written to self header for disc games (not only NPDRM) in self.cpp:
+[spoiler="Code"]
+[code]
+     if(self_type == SELF_TYPE_NPDRM)
+
+     cid->fw_version = sce_hexver_to_decver(sconf->fw_version);
+
+        else
+
+            cid->fw_version = 0;
+[/code]
+
+to:
+
+[code]
+        if(self_type == SELF_TYPE_NPDRM)
+
+            cid->fw_version = sce_hexver_to_decver(sconf->fw_version);
+
+        else if(self_type == SELF_TYPE_APP)
+
+            cid->fw_version = sce_hexver_to_decver(sconf->fw_version);
+
+        else
+
+            cid->fw_version = 0;
+[/code]
+[/spoiler]
+
+3. switch build from public to private to skip placement of watermarks in resigned files
+[spoiler="Code"]
+in config.h uncomment line 13:
+
+[code]
+
+/*! Private build. */
+
+//#define CONFIG_PRIVATE_BUILD
+
+#define BUILD_FOR "naehrwert"
+
+[/code]
+
+to:
+
+[code]
+
+/*! Private build. */
+
+#define CONFIG_PRIVATE_BUILD
+
+//#define BUILD_FOR "naehrwert"
+
+[/code]
+
+and line 22:
+
+[code]
+
+/*! scetool version. */
+
+#ifdef CONFIG_PRIVATE_BUILD
+
+    #ifdef BUILD_FOR
+
+        #define SCETOOL_VERSION SCETOOL_VERSION_BASE " <PRIVATE BUILD:" BUILD_FOR ">"
+
+    #else
+
+        #error Specify a name in BUILD_FOR.
+
+[/code]
+
+to something like:
+
+[code]
+/*! scetool version. */
+
+#ifdef CONFIG_PRIVATE_BUILD
+
+    #ifdef BUILD_FOR
+
+        #define SCETOOL_VERSION SCETOOL_VERSION_BASE " <PRIVATE BUILD:" BUILD_FOR ">"
+
+    #else
+
+        //#error Specify a name in BUILD_FOR.
+
+        #define SCETOOL_VERSION SCETOOL_VERSION_BASE " <Public Private Build>"
+[/code]
+[/spoiler]
+
+4. custom versions should display a separate version number in addition to the official version build number that they are based on (2.9).  main.cpp line 147:
+[spoiler="Code"]
+[code]
+static void print_version()
+
+{
+
+    printf("scetool " SCETOOL_VERSION " (C) 2011-2013 by naehrwert\n");
+
+    printf("NP local license handling (C) 2012 by flatz\n");
+
+    //printf("[Build Date/Time: %s/%s]\n", __DATE__, __TIME__);
+
+}
+[/code]
+
+to something like:
+
+[code]
+static void print_version()
+
+{
+
+    printf("\nFUNCTION: print_version\n");
+
+    printf("scetool " SCETOOL_VERSION " (C) 2011-2013 by naehrwert\n");
+
+    printf("NP local license handling (C) 2012 by flatz\n");
+
+    printf("minor update 0.0.1 <Public Build> 2014 by someone\n");
+
+    //printf("[Build Date/Time: %s/%s]\n", __DATE__, __TIME__);
+
+}
+[/code]
+[/spoiler]
+[/QUOTE]
+
+Source: http://www.maxconsole.com/threads/uniofficial-minor-update-to-scetool.31333/

@@ -54,19 +54,19 @@ void _print_sce_header(FILE *fp, sce_header_t *h)
 void _print_metadata_info(FILE *fp, metadata_info_t *mi)
 {
 	//***this official scetool code prints keys after incremented
-	fprintf(fp, "[*] Metadata Info Incremented:\n");
+	fprintf(fp, "\n[*] Metadata Info Incremented:\n");
 	_hexdump(fp, " Key", 0, mi->key, METADATA_INFO_KEY_LEN, FALSE);
 	_hexdump(fp, " IV ", 0, mi->iv, METADATA_INFO_IV_LEN, FALSE);
 
 	//***to print original meta info keys
-	fprintf(fp, "[*] Metadata Info Original:\n");
+	fprintf(fp, "\n[*] Metadata Info Original:\n");
 	_hexdump(fp, " Key", 0, mik_key, METADATA_INFO_KEY_LEN, FALSE);
 	_hexdump(fp, " IV ", 0, mik_iv, METADATA_INFO_IV_LEN, FALSE);
 }
 
 void _print_metadata_header(FILE *fp, metadata_header_t *mh)
 {
-	fprintf(fp, "[*] Metadata Header:\n");
+	fprintf(fp, "\n[*] Metadata Header:\n");
 	fprintf(fp, " Signature Input Length 0x%016llX\n", mh->sig_input_length);
 	fprintf(fp, " unknown_0              0x%08X\n", mh->unknown_0);
 	fprintf(fp, " Section Count          0x%08X\n", mh->section_count);
@@ -78,7 +78,7 @@ void _print_metadata_header(FILE *fp, metadata_header_t *mh)
 
 static void _print_metadata_section_header_header(FILE *fp)
 {
-	fprintf(fp, "[*] Metadata Section Headers:\n");
+	fprintf(fp, "\n[*] Metadata Section Headers:\n");
 	fprintf(fp, " Idx Offset   Size     Type Index Hashed SHA1 Encrypted Key IV Compressed\n");
 }
 
@@ -110,7 +110,7 @@ void _print_sce_file_keys(FILE *fp, sce_buffer_ctxt_t *ctxt)
 	//Get start of keys.
 	u8 *keys = (u8 *)ctxt->metash + sizeof(metadata_section_header_t) * ctxt->metah->section_count;
 
-	fprintf(fp, "[*] SCE File Keys:\n");
+	fprintf(fp, "\n[*] SCE File Keys:\n");
 	for(i = 0; i < ctxt->metah->key_count; i++)
 	{
 		fprintf(fp, " %02X:", i);
@@ -921,7 +921,7 @@ BOOL sce_decrypt_data(sce_buffer_ctxt_t *ctxt)
 		if(ctxt->metash[i].encrypted == METADATA_SECTION_ENCRYPTED)
 		{
 			if(ctxt->metash[i].key_index > ctxt->metah->key_count - 1 || ctxt->metash[i].iv_index > ctxt->metah->key_count)
-				printf("[*] Warning: Skipped decryption of section %03d (marked encrypted but key/iv index out of range)\n", i);
+				printf("\n[*] Warning: Skipped decryption of section %03d (marked encrypted but key/iv index out of range)\n", i);
 			else
 			{
 				memcpy(iv, ctxt->keys + ctxt->metash[i].iv_index * 0x10, 0x10);

@@ -46,7 +46,7 @@ static void _get_phdr_flags(s8 *str, u64 flags)
 
 void _print_self_header(FILE *fp, self_header_t *h)
 {
-	fprintf(fp, "[*] SELF Header:\n");
+	fprintf(fp, "\n[*] SELF Header:\n");
 	fprintf(fp, " Header Type         0x%016llX\n", h->header_type);
 	fprintf(fp, " App Info Offset     0x%016llX\n", h->app_info_offset);
 	fprintf(fp, " ELF Offset          0x%016llX\n", h->elf_offset);
@@ -63,7 +63,7 @@ void _print_app_info(FILE *fp, app_info_t *ai)
 {
 	const s8 *name;
 
-	fprintf(fp, "[*] Application Info:\n");
+	fprintf(fp, "\n[*] Application Info:\n");
 	
 	name = _get_name(_auth_ids, ai->auth_id);
 	if(name != NULL)
@@ -97,7 +97,7 @@ void _print_app_info(FILE *fp, app_info_t *ai)
 
 void _print_section_info_header(FILE *fp)
 {
-	fprintf(fp, "[*] Section Infos:\n");
+	fprintf(fp, "\n[*] Section Infos:\n");
 	fprintf(fp, " Idx Offset   Size     Compressed unk0     unk1     Encrypted\n");
 }
 
@@ -110,7 +110,7 @@ void _print_section_info(FILE *fp, section_info_t *si, u32 idx)
 
 void _print_sce_version(FILE *fp, sce_version_t *sv)
 {
-	fprintf(fp, "[*] SCE Version:\n");
+	fprintf(fp, "\n[*] SCE Version:\n");
 	fprintf(fp, " Header Type 0x%08X\n", sv->header_type);
 	fprintf(fp, " Present     [%s]\n", sv->present == SCE_VERSION_PRESENT ? "TRUE" : "FALSE");
 	fprintf(fp, " Size        0x%08X\n", sv->size);
@@ -121,7 +121,7 @@ void _print_control_info(FILE *fp, control_info_t *ci)
 {
 	const s8 *name;
 
-	fprintf(fp, "[*] Control Info\n");
+	fprintf(fp, "\n[*] Control Info\n");
 
 	name = _get_name(_control_info_types, ci->type);
 	if(name != NULL)
@@ -195,7 +195,7 @@ void _print_opt_header(FILE *fp, opt_header_t *oh)
 {
 	const s8 *name;
 
-	fprintf(fp, "[*] Optional Header\n");
+	fprintf(fp, "\n[*] Optional Header\n");
 
 	name = _get_name(_optional_header_types, oh->type);
 	if(name != NULL)
@@ -242,7 +242,7 @@ void _print_elf32_ehdr(FILE *fp, Elf32_Ehdr *h)
 {
 	const s8 *name;
 
-	fprintf(fp, "[*] ELF32 Header:\n");
+	fprintf(fp, "\n[*] ELF32 Header:\n");
 
 	name = _get_name(_e_types, h->e_type);
 	if(name != NULL)
@@ -270,7 +270,7 @@ void _print_elf64_ehdr(FILE *fp, Elf64_Ehdr *h)
 {
 	const s8 *name;
 
-	fprintf(fp, "[*] ELF64 Header:\n");
+	fprintf(fp, "\n[*] ELF64 Header:\n");
 
 	name = _get_name(_e_types, h->e_type);
 	if(name != NULL)
@@ -296,7 +296,7 @@ void _print_elf64_ehdr(FILE *fp, Elf64_Ehdr *h)
 
 void _print_elf32_shdr_header(FILE *fp)
 {
-	fprintf(fp, "[*] ELF32 Section Headers:\n");
+	fprintf(fp, "\n[*] ELF32 Section Headers:\n");
 	fprintf(fp, " Idx Name Type          Flags Address Offset Size  ES Align LK\n");
 }
 
@@ -321,7 +321,7 @@ void _print_elf32_shdr(FILE *fp, Elf32_Shdr *h, u32 idx)
 
 void _print_elf64_shdr_header(FILE *fp)
 {
-	fprintf(fp, "[*] ELF64 Section Headers:\n");
+	fprintf(fp, "\n[*] ELF64 Section Headers:\n");
 	fprintf(fp, " Idx Name Type          Flags Address    Offset   Size     ES   Align    LK\n");
 }
 
@@ -346,7 +346,7 @@ void _print_elf64_shdr(FILE *fp, Elf64_Shdr *h, u32 idx)
 
 void _print_elf32_phdr_header(FILE *fp)
 {
-	fprintf(fp, "[*] ELF32 Program Headers:\n");
+	fprintf(fp, "\n[*] ELF32 Program Headers:\n");
 	fprintf(fp, " Idx Type     Offset VAddr PAddr FileSize MemSize Flags Align\n");
 }
 
@@ -372,7 +372,7 @@ void _print_elf32_phdr(FILE *fp, Elf32_Phdr *h, u32 idx)
 
 void _print_elf64_phdr_header(FILE *fp)
 {
-	fprintf(fp, "[*] ELF64 Program Headers:\n");
+	fprintf(fp, "\n[*] ELF64 Program Headers:\n");
 	fprintf(fp, " Idx Type     Offset   VAddr    PAddr    FileSize MemSize  PPU SPU RSX Align\n");
 }
 
@@ -1057,19 +1057,19 @@ BOOL self_build_self(sce_buffer_ctxt_t *ctxt, self_config_t *sconf)
 	//Create control infos.
 	if(_create_control_infos(ctxt, sconf) == FALSE)
 	{
-		printf("[*] Error: Could not create SELF control infos.\n");
+		printf("\n[*] Error: Could not create SELF control infos.\n");
 		return FALSE;
 	}
 
 #ifdef CONFIG_CUSTOM_INDIV_SEED
 	if(sconf->indiv_seed != NULL && sconf->self_type != SELF_TYPE_ISO)
-		printf("[*] Warning: Skipping individuals seed for non-ISO SELF.\n");
+		printf("\n[*] Warning: Skipping individuals seed for non-ISO SELF.\n");
 #endif
 
 	//Create optional headers.
 	if(_create_optional_headers(ctxt, sconf) == FALSE)
 	{
-		printf("[*] Error: Could not create SELF optional headers.\n");
+		printf("\n[*] Error: Could not create SELF optional headers.\n");
 		return FALSE;
 	}
 
