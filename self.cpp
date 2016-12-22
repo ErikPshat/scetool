@@ -87,7 +87,7 @@ void _print_app_info(FILE *fp, app_info_t *ai)
 	else
 		fprintf(fp, " SELF-Type    0x%08X\n", ai->self_type);
 
-	fprintf(fp, " Version      0x%016llX [%s]\n", ai->version, sce_version_to_str(ai->version));
+	fprintf(fp, " App Version  0x%016llX [%s]\n", ai->version, sce_version_to_str(ai->version));
 	fprintf(fp, " Padding      0x%016llX\n", ai->padding);
 }
 
@@ -121,12 +121,12 @@ void _print_control_info(FILE *fp, control_info_t *ci)
 
 	name = _get_name(_control_info_types, ci->type);
 	if(name != NULL)
-		fprintf(fp, " Type         0x%08X %s\n", ci->type, name);
+		fprintf(fp, " Type         0x%08X [%s]\n", ci->type, name);
 	else
 		fprintf(fp, " Type         0x%08X\n", ci->type);
 
 	fprintf(fp, " Size         0x%08X\n", ci->size);
-	fprintf(fp, " Next         0x%016llX [%s]\n", ci->next, ci->next == 1 ? "Next Control Info - TRUE" : "Next Control Info - FALSE");
+	fprintf(fp, " Next         0x%016llX [%s]\n", ci->next, ci->next == 1 ? "Next Control Info - Yeah" : "Next Control Info - Nope");
 
 	switch(ci->type)
 	{
@@ -146,7 +146,7 @@ void _print_control_info(FILE *fp, control_info_t *ci)
 			_hexdump(fp, " Digest 1    ", 0, dig->digest1, 20, FALSE);
 			_hexdump(fp, " Digest 2    ", 0, dig->digest2, 20, FALSE);
 			if(dig->fw_version != 0)
-				fprintf(fp, " FW Version   %d [%02d.%02d]\n", (u32)dig->fw_version, ((u32)dig->fw_version)/10000, (((u32)dig->fw_version)%10000)/100);
+				fprintf(fp, " FW Version   0x%016llX [%02d.%02d]\n", dig->fw_version, ((u32)dig->fw_version)/10000, (((u32)dig->fw_version)%10000)/100);
 		}
 		break;
 	case CONTROL_INFO_TYPE_NPDRM:
@@ -195,12 +195,12 @@ void _print_opt_header(FILE *fp, opt_header_t *oh)
 
 	name = _get_name(_optional_header_types, oh->type);
 	if(name != NULL)
-		fprintf(fp, " Type      0x%08X %s\n", oh->type, name);
+		fprintf(fp, " Type      0x%08X [%s]\n", oh->type, name);
 	else
 		fprintf(fp, " Type      0x%08X\n", oh->type);
 
 	fprintf(fp, " Size      0x%08X\n", oh->size);
-	fprintf(fp, " Next      0x%016llX [%s]\n", oh->next, oh->next == 1 ? "Next Optional Header - TRUE" : "Next Optional Header - FALSE");
+	fprintf(fp, " Next      0x%016llX [%s]\n", oh->next, oh->next == 1 ? "Next Optional Header - Yeah" : "Next Optional Header - Nope");
 
 	switch(oh->type)
 	{
@@ -242,24 +242,27 @@ void _print_elf32_ehdr(FILE *fp, Elf32_Ehdr *h)
 
 	name = _get_name(_e_types, h->e_type);
 	if(name != NULL)
-		fprintf(fp, " Type                   0x%04X [%s]\n", h->e_type, name);
+		fprintf(fp, " Type Object File        0x%04X [%s]\n", h->e_type, name);
 	else
-		fprintf(fp, " Type                   0x%04X\n", h->e_type);
+		fprintf(fp, " Type Object File        0x%04X\n", h->e_type);
 
 	name = _get_name(_e_machines, h->e_machine);
 	if(name != NULL)
-		fprintf(fp, " Machine                0x%04X [%s]\n", h->e_machine, name);
+		fprintf(fp, " Machine Type            0x%04X [%s]\n", h->e_machine, name);
 	else
-		fprintf(fp, " Machine                0x%04X\n", h->e_machine);
+		fprintf(fp, " Machine Type            0x%04X\n", h->e_machine);
 	
-	fprintf(fp, " Version                0x%08X\n", h->e_version);
-	fprintf(fp, " Entry                  0x%08X\n", h->e_entry);
-	fprintf(fp, " Program Headers Offset 0x%08X\n", h->e_phoff);
-	fprintf(fp, " Section Headers Offset 0x%08X\n", h->e_shoff);
-	fprintf(fp, " Flags                  0x%08X\n", h->e_flags);
-	fprintf(fp, " Program Headers Count  %04d\n", h->e_phnum);
-	fprintf(fp, " Section Headers Count  %04d\n", h->e_shnum);
-	fprintf(fp, " SH String Index        %04d\n", h->e_shstrndx);
+	fprintf(fp, " Version Object File     0x%08X\n", h->e_version);
+	fprintf(fp, " Entry Point Address     0x%08X\n", h->e_entry);
+	fprintf(fp, " Program Headers Offset  0x%08X\n", h->e_phoff);
+	fprintf(fp, " Section Headers Offset  0x%08X\n", h->e_shoff);
+	fprintf(fp, " Processor Flags         0x%04X\n", h->e_flags);
+	fprintf(fp, " ELF Header Size         0x%08X\n", h->e_ehsize);
+	fprintf(fp, " Program Header Size     0x%04X\n", h->e_phentsize);
+	fprintf(fp, " Program Headers Entries %04d\n", h->e_phnum);
+	fprintf(fp, " Section Header Size     0x%04X\n", h->e_shentsize);
+	fprintf(fp, " Section Headers Entries %04d\n", h->e_shnum);
+	fprintf(fp, " SN String Table Index   %04d\n", h->e_shstrndx);
 }
 
 void _print_elf64_ehdr(FILE *fp, Elf64_Ehdr *h)
@@ -270,24 +273,27 @@ void _print_elf64_ehdr(FILE *fp, Elf64_Ehdr *h)
 
 	name = _get_name(_e_types, h->e_type);
 	if(name != NULL)
-		fprintf(fp, " Type                   0x%04X [%s]\n", h->e_type, name);
+		fprintf(fp, " Type Object File        0x%04X [%s]\n", h->e_type, name);
 	else
-		fprintf(fp, " Type                   0x%04X\n", h->e_type);
+		fprintf(fp, " Type Object File        0x%04X\n", h->e_type);
 
 	name = _get_name(_e_machines, h->e_machine);
 	if(name != NULL)
-		fprintf(fp, " Machine                0x%04X [%s]\n", h->e_machine, name);
+		fprintf(fp, " Machine Type            0x%04X [%s]\n", h->e_machine, name);
 	else
-		fprintf(fp, " Machine                0x%04X\n", h->e_machine);
+		fprintf(fp, " Machine Type            0x%04X\n", h->e_machine);
 	
-	fprintf(fp, " Version                0x%08X\n", h->e_version);
-	fprintf(fp, " Entry                  0x%016llX\n", h->e_entry);
-	fprintf(fp, " Program Headers Offset 0x%016llX\n", h->e_phoff);
-	fprintf(fp, " Section Headers Offset 0x%016llX\n", h->e_shoff);
-	fprintf(fp, " Flags                  0x%08X\n", h->e_flags);
-	fprintf(fp, " Program Headers Count  %04d\n", h->e_phnum);
-	fprintf(fp, " Section Headers Count  %04d\n", h->e_shnum);
-	fprintf(fp, " SH String Index        %04d\n", h->e_shstrndx);
+	fprintf(fp, " Version Object File     0x%08X\n", h->e_version);
+	fprintf(fp, " Entry Point Address     0x%08X\n", h->e_entry);
+	fprintf(fp, " Program Headers Offset  0x%08X\n", h->e_phoff);
+	fprintf(fp, " Section Headers Offset  0x%08X\n", h->e_shoff);
+	fprintf(fp, " Processor Flags         0x%04X\n", h->e_flags);
+	fprintf(fp, " ELF Header Size         0x%08X\n", h->e_ehsize);
+	fprintf(fp, " Program Header Size     0x%04X\n", h->e_phentsize);
+	fprintf(fp, " Program Headers Entries %04d\n", h->e_phnum);
+	fprintf(fp, " Section Header Size     0x%04X\n", h->e_shentsize);
+	fprintf(fp, " Section Headers Entries %04d\n", h->e_shnum);
+	fprintf(fp, " SN String Table Index   %04d\n", h->e_shstrndx);
 }
 
 void _print_elf32_shdr_header(FILE *fp)

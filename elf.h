@@ -49,8 +49,8 @@ typedef struct
   Elf32_Half	e_machine;		/* Architecture */
   Elf32_Word	e_version;		/* Object file version */
   Elf32_Addr	e_entry;		/* Entry point virtual address */
-  Elf32_Off	e_phoff;		/* Program header table file offset */
-  Elf32_Off	e_shoff;		/* Section header table file offset */
+  Elf32_Off 	e_phoff;		/* Program header table file offset */
+  Elf32_Off 	e_shoff;		/* Section header table file offset */
   Elf32_Word	e_flags;		/* Processor-specific flags */
   Elf32_Half	e_ehsize;		/* ELF header size in bytes */
   Elf32_Half	e_phentsize;		/* Program header table entry size */
@@ -67,8 +67,8 @@ typedef struct
   Elf64_Half	e_machine;		/* Architecture */
   Elf64_Word	e_version;		/* Object file version */
   Elf64_Addr	e_entry;		/* Entry point virtual address */
-  Elf64_Off	e_phoff;		/* Program header table file offset */
-  Elf64_Off	e_shoff;		/* Section header table file offset */
+  Elf64_Off 	e_phoff;		/* Program header table file offset */
+  Elf64_Off 	e_shoff;		/* Section header table file offset */
   Elf64_Word	e_flags;		/* Processor-specific flags */
   Elf64_Half	e_ehsize;		/* ELF header size in bytes */
   Elf64_Half	e_phentsize;		/* Program header table entry size */
@@ -113,7 +113,7 @@ typedef struct
 #define EI_VERSION	6		/* File version byte index */
 					/* Value must be EV_CURRENT */
 
-#define EI_OSABI	7		/* OS ABI identification */
+#define EI_OSABI        	7	/* OS ABI identification */
 #define ELFOSABI_NONE		0	/* UNIX System V ABI */
 #define ELFOSABI_SYSV		0	/* Alias.  */
 #define ELFOSABI_HPUX		1	/* HP-UX */
@@ -1225,7 +1225,7 @@ typedef struct
 /* Legal values for e_flags field of Elf32_Ehdr.  */
 
 #define EF_MIPS_NOREORDER   1		/* A .noreorder directive was used */
-#define EF_MIPS_PIC	    2		/* Contains PIC code */
+#define EF_MIPS_PIC	        2		/* Contains PIC code */
 #define EF_MIPS_CPIC	    4		/* Uses PIC calling sequence */
 #define EF_MIPS_XGOT	    8
 #define EF_MIPS_64BIT_WHIRL 16
