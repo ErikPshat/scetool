@@ -44,17 +44,17 @@
 #define KEY_REVISION_360_361 0x10
 //#define KEY_REVISION_ 0x11
 //#define KEY_REVISION_ 0x12
-#define KEY_REVISION_365 0x13
+#define KEY_REVISION_366 0x13
 //#define KEY_REVISION_ 0x14
 //#define KEY_REVISION_ 0x15
-#define KEY_REVISION_370_373 0x16
+#define KEY_REVISION_370_374 0x16
 //#define KEY_REVISION_ 0x17
 //#define KEY_REVISION_ 0x18
-//#define KEY_REVISION_ 0x19
+#define KEY_REVISION_411 0x19
 //#define KEY_REVISION_ 0x1A
 //#define KEY_REVISION_ 0x1B
-//#define KEY_REVISION_ 0x1C
-//#define KEY_REVISION_ 0x1D
+#define KEY_REVISION_446 0x1C
+#define KEY_REVISION_450_470 0x1D
 #define KEY_REVISION_DEBUG 0x8000
 
 /*! SCE header types. */
