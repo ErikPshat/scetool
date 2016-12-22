@@ -32,17 +32,17 @@ void _print_sce_header(FILE *fp, sce_header_t *h)
 	const s8 *key_revision;
 
 	fprintf(fp, "[*] SCE Header:\n");
-	fprintf(fp, " Magic           0x%08X [%s]\n", h->magic, (h->magic == SCE_HEADER_MAGIC ? "OK" : "ERROR"));
-	fprintf(fp, " Version         0x%08X\n", h->version);
+	fprintf(fp, " Magic           0x%08X [%s]\n", h->magic, (h->magic == SCE_HEADER_MAGIC ? "SCE" : "ERROR"));
+	fprintf(fp, " Header Version  0x%08X\n", h->version);
 	
 	if(h->key_revision == KEY_REVISION_DEBUG)
-		fprintf(fp, " Key Revision    [DEBUG]\n");
+		fprintf(fp, " Key Revision    0x%04X [DEBUG]\n", h->key_revision);
 	else
 		fprintf(fp, " Key Revision    0x%04X\n", h->key_revision);
 	
 	name = _get_name(_sce_header_types, h->header_type);
 	if(name != NULL)
-		fprintf(fp, " Header Type     [%s]\n", name);
+		fprintf(fp, " Header Type     0x%04X [%s]\n", h->header_type, name);
 	else
 		fprintf(fp, " Header Type     0x%04X\n", h->header_type);
 
@@ -483,7 +483,7 @@ void _sce_fixup_keys(sce_buffer_ctxt_t *ctxt)
 
 	memcpy(ctxt->keys + 0x20, "SURPRIZE :D "/**/, 12);
 	memcpy(ctxt->keys + 0x30, "IM IN UR KEYZ !!", 16);
-	u8 foo[16] = {0x09, 0xB8, 0xBE, 0xAE, 0x83, 0xC0, 0x17, 0xA6, 0x3B, 0x11, 0xB0, 0x50, 0xC4, 0xCE, 0xED, 0xF9};
+	u8 foo[16] = {0x09,0xB8,0xBE,0xAE,0x83,0xC0,0x17,0xA6,0x3B,0x11,0xB0,0x50,0xC4,0xCE,0xED,0xF9};
 	memcpy(ctxt->keys + 0x40, foo, 16);
 	memcpy(ctxt->keys + 0x50, buf, 16);
 #endif

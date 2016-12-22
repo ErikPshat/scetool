@@ -47,16 +47,16 @@ static void _get_phdr_flags(s8 *str, u64 flags)
 void _print_self_header(FILE *fp, self_header_t *h)
 {
 	fprintf(fp, "\n[*] SELF Header:\n");
-	fprintf(fp, " Header Type         0x%016llX\n", h->header_type);
-	fprintf(fp, " App Info Offset     0x%016llX\n", h->app_info_offset);
-	fprintf(fp, " ELF Offset          0x%016llX\n", h->elf_offset);
-	fprintf(fp, " PH Offset           0x%016llX\n", h->phdr_offset);
-	fprintf(fp, " SH Offset           0x%016llX\n", h->shdr_offset);
-	fprintf(fp, " Section Info Offset 0x%016llX\n", h->section_info_offset);
-	fprintf(fp, " SCE Version Offset  0x%016llX\n", h->sce_version_offset);
-	fprintf(fp, " Control Info Offset 0x%016llX\n", h->control_info_offset);
-	fprintf(fp, " Control Info Size   0x%016llX\n", h->control_info_size);
-	//fprintf(fp, " padding             0x%016llX\n", h->padding);
+	fprintf(fp, " Header Type           0x%016llX\n", h->header_type);
+	fprintf(fp, " App Info Offset       0x%016llX\n", h->app_info_offset);
+	fprintf(fp, " ELF Offset            0x%016llX\n", h->elf_offset);
+	fprintf(fp, " Program Header Offset 0x%016llX\n", h->phdr_offset);
+	fprintf(fp, " Section Header Offset 0x%016llX\n", h->shdr_offset);
+	fprintf(fp, " Section Info Offset   0x%016llX\n", h->section_info_offset);
+	fprintf(fp, " SCE Version Offset    0x%016llX\n", h->sce_version_offset);
+	fprintf(fp, " Control Info Offset   0x%016llX\n", h->control_info_offset);
+	fprintf(fp, " Control Info Size     0x%016llX\n", h->control_info_size);
+	fprintf(fp, " Padding               0x%016llX\n", h->padding);
 }
 
 void _print_app_info(FILE *fp, app_info_t *ai)
@@ -68,31 +68,27 @@ void _print_app_info(FILE *fp, app_info_t *ai)
 	name = _get_name(_auth_ids, ai->auth_id);
 	if(name != NULL)
 	{
-		fprintf(fp, " Auth-ID   ");
-		_PRINT_RAW(fp, "0x%016llX ", ai->auth_id);
-		fprintf(fp, "[%s]\n", name);
+		fprintf(fp, " Auth-ID      0x%016llX [%s]\n", ai->auth_id, name);
 	}
 	else
-		fprintf(fp, " Auth-ID   0x%016llX\n", ai->auth_id);
+		fprintf(fp, " Auth-ID      0x%016llX\n", ai->auth_id);
 	
 	name = _get_name(_vendor_ids, ai->vendor_id);
 	if(name != NULL)
 	{
-		fprintf(fp, " Vendor-ID ");
-		_PRINT_RAW(fp, "0x%08X ", ai->vendor_id);
-		fprintf(fp, "[%s]\n", name);
+		fprintf(fp, " Vendor-ID    0x%08X [%s]\n", ai->vendor_id, name);
 	}
 	else
-		fprintf(fp, " Vendor-ID 0x%08X\n", ai->vendor_id);
+		fprintf(fp, " Vendor-ID    0x%08X\n", ai->vendor_id);
 
 	name = _get_name(_self_types, ai->self_type);
 	if(name != NULL)
-		fprintf(fp, " SELF-Type [%s]\n", name);
+		fprintf(fp, " SELF-Type    0x%08X [%s]\n", ai->self_type, name);
 	else
-		fprintf(fp, " SELF-Type 0x%08X\n", ai->self_type);
+		fprintf(fp, " SELF-Type    0x%08X\n", ai->self_type);
 
-	fprintf(fp, " Version   %s\n", sce_version_to_str(ai->version));
-	//fprintf(fp, " padding   0x%016llX\n", ai->padding);
+	fprintf(fp, " Version      0x%016llX [%s]\n", ai->version, sce_version_to_str(ai->version));
+	fprintf(fp, " Padding      0x%016llX\n", ai->padding);
 }
 
 void _print_section_info_header(FILE *fp)
@@ -111,10 +107,10 @@ void _print_section_info(FILE *fp, section_info_t *si, u32 idx)
 void _print_sce_version(FILE *fp, sce_version_t *sv)
 {
 	fprintf(fp, "\n[*] SCE Version:\n");
-	fprintf(fp, " Header Type 0x%08X\n", sv->header_type);
-	fprintf(fp, " Present     [%s]\n", sv->present == SCE_VERSION_PRESENT ? "TRUE" : "FALSE");
-	fprintf(fp, " Size        0x%08X\n", sv->size);
-	fprintf(fp, " unknown_3   0x%08X\n", sv->unknown_3);
+	fprintf(fp, " Header Type  0x%08X\n", sv->header_type);
+	fprintf(fp, " Present      0x%08X [%s]\n", sv->present, sv->present == SCE_VERSION_PRESENT ? "TRUE" : "FALSE");
+	fprintf(fp, " Size         0x%08X\n", sv->size);
+	fprintf(fp, " unknown_3    0x%08X\n", sv->unknown_3);
 }
 
 void _print_control_info(FILE *fp, control_info_t *ci)
@@ -125,32 +121,32 @@ void _print_control_info(FILE *fp, control_info_t *ci)
 
 	name = _get_name(_control_info_types, ci->type);
 	if(name != NULL)
-		fprintf(fp, " Type      %s\n", name);
+		fprintf(fp, " Type         0x%08X %s\n", ci->type, name);
 	else
-		fprintf(fp, " Type      0x%08X\n", ci->type);
+		fprintf(fp, " Type         0x%08X\n", ci->type);
 
-	fprintf(fp, " Size      0x%08X\n", ci->size);
-	fprintf(fp, " Next      [%s]\n", ci->next == 1 ? "TRUE" : "FALSE");
+	fprintf(fp, " Size         0x%08X\n", ci->size);
+	fprintf(fp, " Next         0x%016llX [%s]\n", ci->next, ci->next == 1 ? "Next Control Info - TRUE" : "Next Control Info - FALSE");
 
 	switch(ci->type)
 	{
 	case CONTROL_INFO_TYPE_FLAGS:
-		_hexdump(fp, " Flags", 0, (u8 *)ci + sizeof(control_info_t), ci->size - sizeof(control_info_t), FALSE);
+		_hexdump(fp, " Flags       ", 0, (u8 *)ci + sizeof(control_info_t), ci->size - sizeof(control_info_t), FALSE);
 		break;
 	case CONTROL_INFO_TYPE_DIGEST:
 		if(ci->size == 0x30)
 		{
 			ci_data_digest_30_t *dig = (ci_data_digest_30_t *)((u8 *)ci + sizeof(control_info_t));
-			_hexdump(fp, " Digest", 0, dig->digest, 20, FALSE);
+			_hexdump(fp, " Digest       ", 0, dig->digest, 20, FALSE);
 		}
 		else if(ci->size == 0x40)
 		{
 			ci_data_digest_40_t *dig = (ci_data_digest_40_t *)((u8 *)ci + sizeof(control_info_t));
 			_es_ci_data_digest_40(dig);
-			_hexdump(fp, " Digest 1  ", 0, dig->digest1, 20, FALSE);
-			_hexdump(fp, " Digest 2  ", 0, dig->digest2, 20, FALSE);
+			_hexdump(fp, " Digest 1    ", 0, dig->digest1, 20, FALSE);
+			_hexdump(fp, " Digest 2    ", 0, dig->digest2, 20, FALSE);
 			if(dig->fw_version != 0)
-				fprintf(fp, " FW Version %d [%02d.%02d]\n", (u32)dig->fw_version, ((u32)dig->fw_version)/10000, (((u32)dig->fw_version)%10000)/100);
+				fprintf(fp, " FW Version   %d [%02d.%02d]\n", (u32)dig->fw_version, ((u32)dig->fw_version)/10000, (((u32)dig->fw_version)%10000)/100);
 		}
 		break;
 	case CONTROL_INFO_TYPE_NPDRM:
@@ -158,9 +154,9 @@ void _print_control_info(FILE *fp, control_info_t *ci)
 			ci_data_npdrm_t *np = (ci_data_npdrm_t *)((u8 *)ci + sizeof(control_info_t));
 			//Was already fixed in decrypt_header.
 			//_es_ci_data_npdrm(np);
-			fprintf(fp, " Magic        0x%08X [%s]\n", np->magic, (np->magic == NP_CI_MAGIC ? "OK" : "ERROR"));
+			fprintf(fp, " Magic        0x%08X [%s]\n", np->magic, (np->magic == NP_CI_MAGIC ? "NPD" : "ERROR"));
 			fprintf(fp, " unknown_0    0x%08X\n", np->unknown_0);
-			fprintf(fp, " Licence Type 0x%08X\n", np->license_type);
+			fprintf(fp, " License Type 0x%08X\n", np->license_type);
 			fprintf(fp, " App Type     0x%08X\n", np->app_type);
 			fprintf(fp, " ContentID    %s\n", np->content_id);
 			_hexdump(fp, " Random Pad  ", 0, np->rndpad, 0x10, FALSE);
@@ -199,12 +195,12 @@ void _print_opt_header(FILE *fp, opt_header_t *oh)
 
 	name = _get_name(_optional_header_types, oh->type);
 	if(name != NULL)
-		fprintf(fp, " Type      %s\n", name);
+		fprintf(fp, " Type      0x%08X %s\n", oh->type, name);
 	else
 		fprintf(fp, " Type      0x%08X\n", oh->type);
 
 	fprintf(fp, " Size      0x%08X\n", oh->size);
-	fprintf(fp, " Next      [%s]\n", oh->next == 1 ? "TRUE" : "FALSE");
+	fprintf(fp, " Next      0x%016llX [%s]\n", oh->next, oh->next == 1 ? "Next Optional Header - TRUE" : "Next Optional Header - FALSE");
 
 	switch(oh->type)
 	{
@@ -246,13 +242,13 @@ void _print_elf32_ehdr(FILE *fp, Elf32_Ehdr *h)
 
 	name = _get_name(_e_types, h->e_type);
 	if(name != NULL)
-		fprintf(fp, " Type                   [%s]\n", name);
+		fprintf(fp, " Type                   0x%04X [%s]\n", h->e_type, name);
 	else
 		fprintf(fp, " Type                   0x%04X\n", h->e_type);
 
 	name = _get_name(_e_machines, h->e_machine);
 	if(name != NULL)
-		fprintf(fp, " Machine                [%s]\n", name);
+		fprintf(fp, " Machine                0x%04X [%s]\n", h->e_machine, name);
 	else
 		fprintf(fp, " Machine                0x%04X\n", h->e_machine);
 	
@@ -274,13 +270,13 @@ void _print_elf64_ehdr(FILE *fp, Elf64_Ehdr *h)
 
 	name = _get_name(_e_types, h->e_type);
 	if(name != NULL)
-		fprintf(fp, " Type                   [%s]\n", name);
+		fprintf(fp, " Type                   0x%04X [%s]\n", h->e_type, name);
 	else
 		fprintf(fp, " Type                   0x%04X\n", h->e_type);
 
 	name = _get_name(_e_machines, h->e_machine);
 	if(name != NULL)
-		fprintf(fp, " Machine                [%s]\n", name);
+		fprintf(fp, " Machine                0x%04X [%s]\n", h->e_machine, name);
 	else
 		fprintf(fp, " Machine                0x%04X\n", h->e_machine);
 	
