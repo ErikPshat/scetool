@@ -146,7 +146,7 @@ static struct option options[] =
 
 static void print_version()
 {
-	printf("scetool " SCETOOL_VERSION CONFIG_PRIVATE_BUILD " (C) 2011-2013 by naehrwert\n");
+	printf("\nscetool " SCETOOL_VERSION CONFIG_PRIVATE_BUILD " (C) 2011-2013 by naehrwert\n");
 	printf("NP local license handling (C) 2012 by flatz\n");
 	printf("[Build Date/Time: %s/%s]\n\n", __DATE__, __TIME__);
 }
