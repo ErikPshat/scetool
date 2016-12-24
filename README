@@ -85,6 +85,9 @@ OPTIONS                 Possible Values       Explanation
  -j, --np-add-sig       TRUE/FALSE(default)   Whether to add a NP sig. or not.
 
 ==> History <==
+Version 0.2.9.2
+ - Extended Info for ELF Header and other types.
+ - Added keysets 19, 1A, 1B 1C 1D for 3.74 - 4.81 FW.
 Version 0.2.9.1
  - Minor update 0.0.1 --self-fw-version for APP by someone
    http://www.maxconsole.com/threads/uniofficial-minor-update-to-scetool.31333/

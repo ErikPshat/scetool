@@ -117,30 +117,30 @@ static struct option options[] =
 	{"encrypt", ARG_REQ, NULL, 'e'},
 	{"verbose", ARG_NONE, NULL, 'v'},
 	{"raw", ARG_NONE, NULL, 'r'},
-	{"template", ARG_REQ, NULL, 't'},
-	{"sce-type", ARG_REQ, NULL, '0'},
-	{"compress-data", ARG_REQ, NULL, '1'},
-	{"skip-sections", ARG_REQ, NULL, 's'},
-	{"key-revision", ARG_REQ, NULL, '2'},
-	{"meta-info", ARG_REQ, NULL, 'm'},
-	{"keyset", ARG_REQ, NULL, 'K'},
-	{"self-auth-id", ARG_REQ, NULL, '3'},
-	{"self-vendor-id", ARG_REQ, NULL, '4'},
-	{"self-type", ARG_REQ, NULL, '5'},
-	{"self-app-version", ARG_REQ, NULL, 'A'},
-	{"self-fw-version", ARG_REQ, NULL, '6'},
-	{"self-add-shdrs", ARG_REQ, NULL, '7'},
-	{"self-ctrl-flags", ARG_REQ, NULL, '8'},
-	{"self-cap-flags", ARG_REQ, NULL, '9'},
+	{"template", ARG_REQ, NULL, VAL_TEMPLATE},
+	{"sce-type", ARG_REQ, NULL, VAL_FILE_TYPE},
+	{"compress-data", ARG_REQ, NULL, VAL_COMPRESS_DATA},
+	{"skip-sections", ARG_REQ, NULL, VAL_SKIP_SECTIONS},
+	{"key-revision", ARG_REQ, NULL, VAL_KEY_REV},
+	{"meta-info", ARG_REQ, NULL, VAL_META_INFO},
+	{"keyset", ARG_REQ, NULL, VAL_KEYSET},
+	{"self-auth-id", ARG_REQ, NULL, VAL_AUTH_ID},
+	{"self-vendor-id", ARG_REQ, NULL, VAL_VENDOR_ID},
+	{"self-type", ARG_REQ, NULL, VAL_SELF_TYPE},
+	{"self-app-version", ARG_REQ, NULL, VAL_APP_VERSION},
+	{"self-fw-version", ARG_REQ, NULL, VAL_FW_VERSION},
+	{"self-add-shdrs", ARG_REQ, NULL, VAL_ADD_SHDRS},
+	{"self-ctrl-flags", ARG_REQ, NULL, VAL_CTRL_FLAGS},
+	{"self-cap-flags", ARG_REQ, NULL, VAL_CAP_FLAGS},
 #ifdef CONFIG_CUSTOM_INDIV_SEED
-	{"self-indiv-seed", ARG_REQ, NULL, 'a'},
+	{"self-indiv-seed", ARG_REQ, NULL, VAL_INDIV_SEED},
 #endif
-	{"np-license-type", ARG_REQ, NULL, 'b'},
-	{"np-app-type", ARG_REQ, NULL, 'c'},
-	{"np-content-id", ARG_REQ, NULL, 'f'},
-	{"np-klicensee", ARG_REQ, NULL, 'l'},
-	{"np-real-fname", ARG_REQ, NULL, 'g'},
-	{"np-add-sig", ARG_REQ, NULL, 'j'},
+	{"np-license-type", ARG_REQ, NULL, VAL_LICENSE_TYPE},
+	{"np-app-type", ARG_REQ, NULL, VAL_APP_TYPE},
+	{"np-content-id", ARG_REQ, NULL, VAL_CONTENT_ID},
+	{"np-klicensee", ARG_REQ, NULL, VAL_KLICENSEE},
+	{"np-real-fname", ARG_REQ, NULL, VAL_REAL_FNAME},
+	{"np-add-sig", ARG_REQ, NULL, VAL_ADD_SIG},
 	{NULL, ARG_NULL, NULL, 0}
 };
 
@@ -188,7 +188,7 @@ static void print_usage()
 	printf(" -a, --self-indiv-seed  256 bytes             Individuals Seed (ISO only)\n");
 #endif
 	printf(" -b, --np-license-type  LOCAL/FREE            License Type\n");
-	printf(" -c, --np-app-type      SPRX/EXEC/USPRX/UEXEC App Type (U* for updates)\n");
+	printf(" -c, --np-app-type      SPRX/EXEC/USPRX/UEXEC App Type (U* for PSN Updates)\n");
 	printf(" -f, --np-content-id                          Content ID\n");
 	printf(" -l, --np-klicensee     16 bytes              Override klicensee.\n");
 	printf(" -g, --np-real-fname    e.g. EBOOT.BIN        Real Filename\n");
